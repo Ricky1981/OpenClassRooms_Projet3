@@ -14,6 +14,41 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "vagrant-debian10.6.0"
   config.vm.box_url = "file:///home/seb/Bureau/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
+  
+
+
+  ##### TEST SRY #####
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+  #id_rsa_pub = File.read("#{Dir.home}/.ssh/id_rsa.pub")
+  #config.vm.provision "copy ssh public key", type: "shell",
+  # inline: "echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys"
+ 
+ ### PARTIE A GARDER ###
+ #config.vm.provision "shell" do |s|
+ #   ssh_prv_key = File.read("#{Dir.home}/.ssh/id_rsa")
+ #   ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+ #   s.inline = <<-SHELL
+ #       echo Provisionning public ssh key...
+ #       [ -e /home/vagrant/.ssh/id_rsa.pub ] && rm /home/vagrant/.ssh/id_rsa.pub
+ #       touch /home/vagrant/.ssh/id_rsa.pub
+ #       echo "#{ssh_pub_key}" >> /home/vagrant/.ssh/id_rsa.pub
+
+ #       echo Provisionning private ssh key...
+ #       [ -e /home/vagrant/.ssh/id_rsa ] && rm /home/vagrant/.ssh/id_rsa
+ #       touch /home/vagrant/.ssh/id_rsa
+ #       echo "#{ssh_prv_key}" >> /home/vagrant/.ssh/id_rsa
+
+ #       echo Provisionning of ssh keys completed [Success].
+ #   SHELL
+ #end
+ ### FIN - PARTIE A GARDER ###
+
+  #### FIN TEST SRY #####
+
+
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
