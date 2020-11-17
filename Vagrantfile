@@ -15,13 +15,12 @@ Vagrant.configure("2") do |config|
   config.vm.box = "vagrant-debian10.6.0"
   config.vm.box_url = "file:///home/seb/Bureau/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
   
-
-
-  ##### TEST SRY #####
+  # Configuration SSH
   config.ssh.private_key_path = "~/.ssh/id_rsa"
   config.ssh.forward_agent = true
   config.ssh.insert_key = false
-  
+ 
+ ##### TEST SRY #####
  # config.vm.provision "shell",
  #   inline: "echo Hello, World"
   
@@ -107,5 +106,16 @@ Vagrant.configure("2") do |config|
      apt-get update
      #apt-get install -y apache2
      apt-get install -y vim
+
+     # Ajout depot Ansible"
+     DEPOTFILE='/etc/apt/sources.list'
+     LINETOADD_ANSIBLE='deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main'
+     #https://linux.die.net/man/1/grep --> ici la ligne ne s'ajoutera que si celle ci n'est pas déjà présente dans sources.list
+     grep -qFx "$LINETOADD_ANSIBLE" "$DEPOTFILE" || echo "$LINETOADD_ANSIBLE" >> "$DEPOTFILE"
+     #echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' >> /etc/apt/sources.list
+     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+     apt-get update
+     apt-get install -y ansible
+
    SHELL
 end
