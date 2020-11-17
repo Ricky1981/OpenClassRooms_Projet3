@@ -21,6 +21,11 @@ Vagrant.configure("2") do |config|
   config.ssh.private_key_path = "~/.ssh/id_rsa"
   config.ssh.forward_agent = true
   config.ssh.insert_key = false
+  
+ # config.vm.provision "shell",
+ #   inline: "echo Hello, World"
+  
+  
   #id_rsa_pub = File.read("#{Dir.home}/.ssh/id_rsa.pub")
   #config.vm.provision "copy ssh public key", type: "shell",
   # inline: "echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys"
@@ -98,8 +103,9 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+   config.vm.provision "shell", inline: <<-SHELL
+     apt-get update
+     #apt-get install -y apache2
+     apt-get install -y vim
+   SHELL
 end
