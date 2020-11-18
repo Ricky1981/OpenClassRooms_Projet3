@@ -13,46 +13,13 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "vagrant-debian10.6.0"
-  config.vm.box_url = "file:///home/seb/Bureau/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
+  config.vm.box_url = "file:///home/seb/Documents/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
   
   # Configuration SSH
   config.ssh.private_key_path = "~/.ssh/id_rsa"
   config.ssh.forward_agent = true
   config.ssh.insert_key = false
  
- ##### TEST SRY #####
- # config.vm.provision "shell",
- #   inline: "echo Hello, World"
-  
-  
-  #id_rsa_pub = File.read("#{Dir.home}/.ssh/id_rsa.pub")
-  #config.vm.provision "copy ssh public key", type: "shell",
-  # inline: "echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys"
- 
- ### PARTIE A GARDER ###
- #config.vm.provision "shell" do |s|
- #   ssh_prv_key = File.read("#{Dir.home}/.ssh/id_rsa")
- #   ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
- #   s.inline = <<-SHELL
- #       echo Provisionning public ssh key...
- #       [ -e /home/vagrant/.ssh/id_rsa.pub ] && rm /home/vagrant/.ssh/id_rsa.pub
- #       touch /home/vagrant/.ssh/id_rsa.pub
- #       echo "#{ssh_pub_key}" >> /home/vagrant/.ssh/id_rsa.pub
-
- #       echo Provisionning private ssh key...
- #       [ -e /home/vagrant/.ssh/id_rsa ] && rm /home/vagrant/.ssh/id_rsa
- #       touch /home/vagrant/.ssh/id_rsa
- #       echo "#{ssh_prv_key}" >> /home/vagrant/.ssh/id_rsa
-
- #       echo Provisionning of ssh keys completed [Success].
- #   SHELL
- #end
- ### FIN - PARTIE A GARDER ###
-
-  #### FIN TEST SRY #####
-
-
-
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -103,19 +70,21 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
-     apt-get update
-     #apt-get install -y apache2
-     apt-get install -y vim
 
-     # Ajout depot Ansible"
-     DEPOTFILE='/etc/apt/sources.list'
-     LINETOADD_ANSIBLE='deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main'
-     #https://linux.die.net/man/1/grep --> ici la ligne ne s'ajoutera que si celle ci n'est pas déjà présente dans sources.list
-     grep -qFx "$LINETOADD_ANSIBLE" "$DEPOTFILE" || echo "$LINETOADD_ANSIBLE" >> "$DEPOTFILE"
-     #echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' >> /etc/apt/sources.list
-     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-     apt-get update
-     apt-get install -y ansible
+	# Ajout Editeur Texte     
+	apt-get update
+     	#apt-get install -y apache2
+     	apt-get install -y vim
+
+     	# Ajout depot Ansible"
+     	DEPOTFILE='/etc/apt/sources.list'
+	LINETOADD_ANSIBLE='deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main'
+     	#https://linux.die.net/man/1/grep --> ici la ligne ne s'ajoutera que si celle ci n'est pas déjà présente dans sources.list
+     	grep -qFx "$LINETOADD_ANSIBLE" "$DEPOTFILE" || echo "$LINETOADD_ANSIBLE" >> "$DEPOTFILE"
+     	#echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' >> /etc/apt/sources.list
+     	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+     	apt-get update
+     	apt-get install -y ansible
 
    SHELL
 end
