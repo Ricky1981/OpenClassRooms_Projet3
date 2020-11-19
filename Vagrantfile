@@ -13,13 +13,25 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "vagrant-debian10.6.0"
-  config.vm.box_url = "file:///home/seb/Documents/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
-  
-  # Configuration SSH
-  config.ssh.private_key_path = "~/.ssh/id_rsa"
-  config.ssh.forward_agent = true
-  config.ssh.insert_key = false
+  #config.vm.box_url = "file:///home/seb/Documents/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
  
+  # Ajout d'une valeur d'un timeout plus bas que par défaut pour rendre les tests plus rapide
+  #config.vm.boot_timeout = 40
+ 
+  # Configuration SSH
+  #config.ssh.private_key_path = "~/.ssh/id_rsa"
+  #config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+  # https://medium.com/@Sohjiro/add-public-key-to-vagrant-4bd5424521bf
+  #config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
+  #config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+  
+  #config.vm.provision "shell", inline: <<-EOC
+  #  sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
+  #  sudo systemctl restart sshd.service
+  #  echo "finished"
+  #EOC
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -70,6 +82,8 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
+	## Ajout clé SSH public de l'utilisateur qui souhaite utiliser la VM Vagrant
+	#cat ~/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys	
 
 	# Ajout Editeur Texte     
 	apt-get update
