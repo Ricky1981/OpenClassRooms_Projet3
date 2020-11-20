@@ -106,7 +106,7 @@ Vagrant.configure("2") do |config|
 	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
 	sudo apt-get update
 	sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-	
+	usermod -aG docker vagrant	
 
    SHELL
 end
