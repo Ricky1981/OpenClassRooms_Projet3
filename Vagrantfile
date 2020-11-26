@@ -1,118 +1,56 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "vagrant-debian10.6.0"
-  #config.vm.box_url = "file:///home/seb/Documents/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
+   # Utilisation de la boxe que nous avons crées via VirtualBox 
+   config.vm.box = "vagrant-debian10.6.0"
+   # Le paramètre config.vm.box_url est à utiliser si vous souhaiter mettre l'image ailleurs que dans le repertoire courant
+   # config.vm.box_url = "file:///home/seb/Documents/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
  
-  # Ajout d'une valeur d'un timeout plus bas que par défaut pour rendre les tests plus rapide
-  #config.vm.boot_timeout = 40
+   # Le paramètre config.vm.boot_timeout permet de changer la valeur du timeout (défaut 300 secondes) pour rendre les tests plus rapide en cas de problème
+   # config.vm.boot_timeout = 40
  
-  # Configuration SSH
-  #config.ssh.private_key_path = "~/.ssh/id_rsa"
-  #config.ssh.forward_agent = true
-  config.ssh.insert_key = false
-  # https://medium.com/@Sohjiro/add-public-key-to-vagrant-4bd5424521bf
-  #config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
-  #config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+   # Configuration SSH
+   # Nous mettons le paramètre config.ssh.insert_key à false pour que Vagrant n'ajoute pas une clé de façon automatique (par défaut à true)
+   config.ssh.insert_key = false
   
-  #config.vm.provision "shell", inline: <<-EOC
-  #  sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
-  #  sudo systemctl restart sshd.service
-  #  echo "finished"
-  #EOC
-
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
+   # Nous créons un réseau privé pour permettre à notre machine de trouver et pouvoir communiquer avec notre VM 
    config.vm.network "private_network", ip: "192.168.33.10"
     
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
+   # Nous personnalisons notre VM en fixant la mémoire et en attribuant un nom à notre machine virtuelle
    config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-     vb.memory = "4096"
-     vb.name = "Projet 03 - Creez votre environnement de travail local"
+      vb.memory = "4096"
+      vb.name = "Projet 03 - Creez votre environnement de travail local"
    end
 
-  # Etant donné que j'ai ajouté en local sur mon poste le plugin vbguest, je dois ajouter cette ligne dans la conf 
+  # Etant donné que le plugin vbguest a été ajouter, nous devons indiquer à vagrant de ne pas tenter l'update 
    if Vagrant.has_plugin?("vagrant-vbguest")
-    config.vbguest.auto_update = false  
+      config.vbguest.auto_update = false  
    end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
-  # documentation for more information about their specific syntax and use.
+  
+   # Nous provisionnons notre VM avec les outils dont nous avons besoin pour travailler
    config.vm.provision "shell", inline: <<-SHELL
-	## Ajout clé SSH public de l'utilisateur qui souhaite utiliser la VM Vagrant
-	#cat ~/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys	
-
-	# Ajout Editeur Texte     
-	apt-get update
-     	#apt-get install -y apache2
+	
+	   # Ajout Editeur Texte     
+	   apt-get update
      	apt-get install -y vim
 
      	# Ajout depot Ansible"
      	DEPOTFILE='/etc/apt/sources.list'
-	LINETOADD_ANSIBLE='deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main'
-     	#https://linux.die.net/man/1/grep --> ici la ligne ne s'ajoutera que si celle ci n'est pas déjà présente dans sources.list
+	   LINETOADD_ANSIBLE='deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main'
+     	# ici la ligne ne s'ajoutera que si celle ci n'est pas déjà présente dans sources.list
      	grep -qFx "$LINETOADD_ANSIBLE" "$DEPOTFILE" || echo "$LINETOADD_ANSIBLE" >> "$DEPOTFILE"
-     	#echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' >> /etc/apt/sources.list
      	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
      	apt-get update
      	apt-get install -y ansible
 
-	# Ajout Docker
-	apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-	sudo apt-get update
-	sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-	usermod -aG docker vagrant	
+	   # Ajout Docker
+	   apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+	   curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+	   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+	   sudo apt-get update
+	   sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+	   usermod -aG docker vagrant	
 
    SHELL
 end
