@@ -9,11 +9,35 @@ Bien vérifier préalablement que votre réseau n'utilise pas cette IP.
 - [Git](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git) ~> 2.20
 - [Vagrant](https://www.vagrantup.com/docs/installation) ~> 2.2.6
 - Plugin scp de vagrant : `vagrant plugin install vagrant-scp` 
+- Plugin vbguest de vagrant : `vagrant plugin install vagrant-vbguest`
 - [VirtualBox ainsi que son pack d'extension](https://www.virtualbox.org/wiki/Downloads) ~> 6.1.16
 - Disposer de l’image vagrant `vagrant-debian10.6.0` et la placer dans le meme repertoire où la commande `vagrant up` sera exécutée 
 
-## Configuration SSH
+## Installation de la machine virtuelle "vierge"
 
+1. Créer un repertoire sur poste, par exemple "vagrant" : `mkdir ~/vagrant`
+2. Se déplacer dans le répertoire "vagrant" : `cd ~/vagrant`
+3. Récupérer la dernière version du repository en lançant la commande suivante : `git clone --depth 1 https://github.com/Ricky1981/OpenClassRooms_Projet3_Vagrant.git .`
+4. Récuperer l'image "vagrant-debian10.6.0" et la placer dans le repertoire "vagrant" : `mv [VotreEmplacement]/vagrant-debian10.6.0 ~/vagrant`
+5. Lancer la construction via la commande `vagrant up`
+6. Après un certain temps, la machine virtuelle est créée et il vous est possible de prendre la main à distance en ssh via la commande `vagrant ssh` (si vous souhaitez une autre méthode de connection, merci de consulter la section [suivante](#ssh))
+
+## Test des différents outils sur la machine virtuelle
+
+Les composants du tableaux ci-dessous sont les composants qui ont été ajouté dans le Vagrantfile et ne proviennent donc pas de l'image par défaut.
+Toutes les commandes ci-dessous sont en faire une fois la connection SSH sur l'hôte distant est opérationnel :
+
+| Composant | Commande | Retour |
+|-----------|----------|--------|
+| Editeur de texte | `vim --version` | VIM - Vi IMproved 8.1 |
+| Ansible | `ansible --version` | ansible 2.9.15 |
+| Docker | `docker --version` | Docker version 19.03.13 |
+
+
+
+## <a name="ssh"></a> Configuration SSH
+
+Ce paragraphe vous propose de configurer SSH sur votre poste afin d'utiliser la façon commune à l'utilisation de la commande ssh.
 Vagrant se connecte parfaitement via la commande `vagrant ssh`. 
 Cependant, si vous souhaitez utiliser la commande `ssh [user]@[IP]`, il faudra ajouter des informations dans le fichier ~/.ssh/config.
 Ci-dessous les étapes à respecter : 
