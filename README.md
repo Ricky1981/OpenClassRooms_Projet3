@@ -25,7 +25,7 @@ A titre informatif, plus de détail concernant l'image vagrant utilisée [ici](h
 ## Test des différents outils sur la machine virtuelle
 
 Les composants du tableaux ci-dessous sont les composants qui ont été ajouté dans le Vagrantfile et ne proviennent donc pas de l'image par défaut.
-Toutes les commandes ci-dessous sont en faire une fois la connection SSH sur l'hôte distant est opérationnel :
+Toutes les commandes ci-dessous sont à faire une fois la connection SSH sur l'hôte distant est opérationnel :
 
 | Composant | Commande | Retour |
 |-----------|----------|--------|
