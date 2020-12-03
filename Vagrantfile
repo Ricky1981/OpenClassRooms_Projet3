@@ -2,9 +2,9 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-   # Utilisation de la boxe que nous avons crées via VirtualBox 
-   config.vm.box = "vagrant-debian10.6.0"
-   # Le paramètre config.vm.box_url est à utiliser si vous souhaiter mettre l'image ailleurs que dans le repertoire courant
+   # Utilisation de la boxe que nous avons choisi d'utiliser 
+   config.vm.box = "generic/debian10"
+   # Dans le cas d'une construction d'image personnel, le paramètre config.vm.box_url est à utiliser si vous souhaitez mettre l'image ailleurs que dans le repertoire courant
    # config.vm.box_url = "file:///home/seb/Documents/ownCloud/OpenClassRoom/Projet_03_RYKALA_Sebastien/vagrantBox/vagrant-debian10.6.0.box"
  
    # Le paramètre config.vm.boot_timeout permet de changer la valeur du timeout (défaut 300 secondes) pour rendre les tests plus rapide en cas de problème
@@ -23,10 +23,11 @@ Vagrant.configure("2") do |config|
       vb.name = "Projet 03 - Creez votre environnement de travail local"
    end
 
-  # Etant donné que le plugin vbguest a été ajouter, nous devons indiquer à vagrant de ne pas tenter l'update 
-   if Vagrant.has_plugin?("vagrant-vbguest")
-      config.vbguest.auto_update = false  
-   end
+   # Décommenter ces 3 lignes après le premier lancement afin de gagner du temps lors de la vérification des "Guest Additions".
+   # Etant donné que le plugin vbguest a été ajouté lors du premier lancement, nous pouvons indiquer à vagrant de ne pas tenter l'update 
+   #if Vagrant.has_plugin?("vagrant-vbguest")
+   #   config.vbguest.auto_update = false  
+   #end
   
    # Nous provisionnons notre VM avec les outils dont nous avons besoin pour travailler
    config.vm.provision "shell", inline: <<-SHELL

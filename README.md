@@ -4,6 +4,8 @@ Le but de cette documentation est de définir les prérequis necessaires a l'uti
 La machine virtuelle obtenue sera une debian 10 et disposera d'une IP fixe à savoir 192.168.33.10.
 Bien vérifier préalablement que votre réseau n'utilise pas cette IP.
 
+A titre informatif, plus de détail concernant l'image vagrant utilisée [ici](https://app.vagrantup.com/generic/boxes/debian10)
+
 ## Prérequis
 
 - [Git](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git) ~> 2.20
@@ -11,16 +13,14 @@ Bien vérifier préalablement que votre réseau n'utilise pas cette IP.
 - Plugin scp de vagrant : `vagrant plugin install vagrant-scp` 
 - Plugin vbguest de vagrant : `vagrant plugin install vagrant-vbguest`
 - [VirtualBox ainsi que son pack d'extension](https://www.virtualbox.org/wiki/Downloads) ~> 6.1.16
-- Disposer de l’image vagrant `vagrant-debian10.6.0` et la placer dans le meme repertoire où la commande `vagrant up` sera exécutée 
 
 ## Installation de la machine virtuelle "vierge"
 
 1. Créer un repertoire sur poste, par exemple "vagrant" : `mkdir ~/vagrant`
 2. Se déplacer dans le répertoire "vagrant" : `cd ~/vagrant`
 3. Récupérer la dernière version du repository en lançant la commande suivante : `git clone --depth 1 https://github.com/Ricky1981/OpenClassRooms_Projet3_Vagrant.git .`
-4. Récuperer l'image "vagrant-debian10.6.0" et la placer dans le repertoire "vagrant" : `mv [VotreEmplacement]/vagrant-debian10.6.0 ~/vagrant`
-5. Lancer la construction via la commande `vagrant up`
-6. Après un certain temps, la machine virtuelle est créée et il vous est possible de prendre la main à distance en ssh via la commande `vagrant ssh` (si vous souhaitez une autre méthode de connection, merci de consulter la section [suivante](#ssh))
+4. Lancer la construction via la commande `vagrant up`
+5. Après un certain temps, la machine virtuelle est créée et il vous est possible de prendre la main à distance en ssh via la commande `vagrant ssh` (si vous souhaitez une autre méthode de connection, merci de consulter la section [suivante](#ssh))
 
 ## Test des différents outils sur la machine virtuelle
 
@@ -31,7 +31,7 @@ Toutes les commandes ci-dessous sont en faire une fois la connection SSH sur l'h
 |-----------|----------|--------|
 | Editeur de texte | `vim --version` | VIM - Vi IMproved 8.1 |
 | Ansible | `ansible --version` | ansible 2.9.15 |
-| Docker | `docker --version` | Docker version 19.03.13 |
+| Docker | `docker --version` | Docker version 19.03.14 |
 
 
 
